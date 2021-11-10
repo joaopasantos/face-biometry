@@ -7,7 +7,9 @@ def video():
     while True:
         success, capture = cap.read()
         if not success:
-            print('Falha ao tentar capturar o vídeo.')
+            cap.release()
+            cv2.destroyAllWindows()
+            raise RuntimeError('Falha ao tentar capturar o vídeo.')
             break
         frames = cv2.resize(capture, (0,0),None, 0.25,0.25)
         frames = cv2.cvtColor(frames, cv2.COLOR_BGR2RGB)
@@ -20,20 +22,15 @@ def video():
         if k%256 == 27:
             # ESC pressionado
             print("Escape pressionado, fechando janelas...")
-            img = None
-            success = False
+            cap.release()
+            cv2.destroyAllWindows()
+            raise RuntimeError('Usuário cancelou a captura de imagem.')
             break
         elif k%256 == 32:
             # SPACE pressed
-            # img_name = "opencv_frame_{}.png".format(img_counter)
-            # cv2.imwrite(img_name, frame)
-            # print("{} written!".format(img_name))
-            # img_counter += 1
             img = capture
             break
     
     cap.release()
-    
     cv2.destroyAllWindows()
-    
-    return success, img
+    return img
