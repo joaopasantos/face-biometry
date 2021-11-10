@@ -24,18 +24,23 @@ def findEncoding(images):
 
 encodingsKnowFaces = findEncoding(images)
 
+# Informa quantas codificações de faces foram reconhecidas
 print(len(encodingsKnowFaces), 'faces found!')
 
+# Inicia a captura de vídeo da Webcam
 cap = cv2.VideoCapture(0)
 
 while True:
     sucess, img = cap.read()
+    if not sucess:
+        print('Falha ao tentar capturar o vídeo.')
+        break
     frames = cv2.resize(img, (0,0),None, 0.25,0.25)
     frames = cv2.cvtColor(frames, cv2.COLOR_BGR2RGB)
     
     facesCurrFrame = face_recognition.face_locations(frames)
     encodingsCurrFrame = face_recognition.face_encodings(frames, facesCurrFrame)
-    
+    print(len(facesCurrFrame))
     for encoding, location in zip(encodingsCurrFrame, facesCurrFrame):
         comparisons = face_recognition.compare_faces(encodingsKnowFaces, encoding, tolerance=0.55)
         distances = face_recognition.face_distance(encodingsKnowFaces, encoding)
@@ -47,13 +52,14 @@ while True:
             print(name)
             y1, x2, y2, x1 = map(lambda v: v*4, location)
             cv2.rectangle(img, (x1,y1),(x2,y2), (0,255,0),2)
-            cv2.putText(img, name, (x1,y2+30), cv2.FONT_HERSHEY_DUPLEX, 1, (255,255,255),2)
+            cv2.rectangle(img, (x1,y2-35),(x2,y2), (0,255,0),cv2.FILLED)
+            cv2.putText(img, name, (x1+6,y2-6), cv2.FONT_HERSHEY_DUPLEX, 0.75, (255,255,255),1)
             
     cv2.imshow('Webcam', img)
     k = cv2.waitKey(1)
     if k%256 == 27:
-        # ESC pressed
-        print("Escape hit, closing...")
+        # ESC pressionado
+        print("Escape pressionado, fechando janelas...")
         break
 
 cap.release()
