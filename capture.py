@@ -13,24 +13,21 @@ def video():
             break
         frames = cv2.resize(capture, (0,0),None, 0.25,0.25)
         frames = cv2.cvtColor(frames, cv2.COLOR_BGR2RGB)
-        
-        # facesCurrFrame = face_recognition.face_locations(frames)
-        # encodingsCurrFrame = face_recognition.face_encodings(frames, facesCurrFrame)
-                
+        # Apresenta o vídeo sendo capturado para o usuário
         cv2.imshow('Webcam', capture)
         k = cv2.waitKey(1)
+        # ESC pressionado
         if k%256 == 27:
-            # ESC pressionado
             print("Escape pressionado, fechando janelas...")
             cap.release()
             cv2.destroyAllWindows()
             raise RuntimeError('Usuário cancelou a captura de imagem.')
             break
+        # ESPAÇO pressionado
         elif k%256 == 32:
-            # SPACE pressed
             img = capture
             break
-    
+    # Finaliza a captura e fecha as instâncias de janelas
     cap.release()
     cv2.destroyAllWindows()
     return img

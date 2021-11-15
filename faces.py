@@ -4,7 +4,6 @@ import numpy as np
 import face_recognition
 
 def getEncodings(path):
-    # path = 'users' # Caminho até a pasta de imagens
     images = []
     ids = []
     list = os.listdir(path) # Guarda o nome de todos os arquivos na pasta de imagens
@@ -15,11 +14,11 @@ def getEncodings(path):
         images.append(currentImg)
         ids.append(os.path.splitext(funcionario)[0])
     
-    encodingsKnowFaces = findEncoding(images)
+    encodingsKnowFaces = evaluateEncoding(images)
     
     return ids, encodingsKnowFaces
 
-def findEncoding(images):
+def evaluateEncoding(images):
     encodings = []
     for img in images:
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)

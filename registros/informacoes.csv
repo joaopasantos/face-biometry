@@ -1,6 +1,6 @@
-Id;Titulo;Nivel de Seguranca
-1;Manual;1
-2;Agrotoxicos Proibidos;1
-3;Locais de interesse;1
-4;Propriedades que utilizam agrotoxicos proibidos;2
-5;Grandes proprietarios suspeitos;3
+Id,Titulo,Nivel de Seguranca
+1,Manual,1
+2,Agrotoxicos Proibidos,1
+3,Locais de interesse,1
+4,Propriedades que utilizam agrotoxicos proibidos,2
+5,Proprietarios suspeitos,3

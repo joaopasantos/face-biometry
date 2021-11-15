@@ -1,7 +1,3 @@
-import os
-import cv2
-import numpy as np
-import face_recognition
 import faces
 import capture
 import register
@@ -10,12 +6,12 @@ print('MINISTÉRIO DO MEIO AMBIENTE\n')
 print('Acessando o banco de dados...')
 try:
     print('\nIniciando o processo de biometria facial...')
-    names, knownEncodings = faces.getEncodings('funcionarios')
-    print(len(knownEncodings), ' registro(s).')
+    ids, knownEncodings = register.getKnownEncodings()
+    print('Focalize a janela de vídeo, e pressione ESPAÇO quando desejar capturar sua imagem de identificação.')
     img = capture.video()
-    id = faces.identify(img, names, knownEncodings)
+    id = faces.identify(img, ids, knownEncodings)
     print('Biometria realizada com sucesso!')
-    print(f'\nBem vindo, {register.getName(id)}.')
+    print(f'\nBem vindo, {register.getNome(id)}.')
     print(f'Seu registro:\n\tID: {id}\n\tCargo: {register.getCargoNome(id)}\n\tNivel de Acesso: {register.getNivelSeg(id)}')
     print('\nQual documento você deseja acessar?')
     
