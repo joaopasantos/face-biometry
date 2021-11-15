@@ -3,7 +3,7 @@ import cv2
 def video():
     # Inicia a captura de vídeo da Webcam
     cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
-    
+    # Loop para a apresentação do vídeo
     while True:
         success, capture = cap.read()
         if not success:
@@ -11,10 +11,7 @@ def video():
             cv2.destroyAllWindows()
             raise RuntimeError('Falha ao tentar capturar o vídeo.')
             break
-        frames = cv2.resize(capture, (0,0),None, 0.25,0.25)
-        frames = cv2.cvtColor(frames, cv2.COLOR_BGR2RGB)
-        # Apresenta o vídeo sendo capturado para o usuário
-        cv2.imshow('Webcam', capture)
+        cv2.imshow('Webcam', capture) # Apresenta o vídeo sendo capturado para o usuário
         k = cv2.waitKey(1)
         # ESC pressionado
         if k%256 == 27:
@@ -25,7 +22,7 @@ def video():
             break
         # ESPAÇO pressionado
         elif k%256 == 32:
-            img = capture
+            img = capture # Captura a imagem
             break
     # Finaliza a captura e fecha as instâncias de janelas
     cap.release()

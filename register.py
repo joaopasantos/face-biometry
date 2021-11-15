@@ -1,5 +1,7 @@
 import numpy as np
 
+# Funções que realizam as leituras dos arquivos em .csv, para simular um DB
+
 def getNome(id):
     with open('registros/funcionarios.csv', 'r') as registro:
         lista = registro.readlines()
@@ -60,7 +62,7 @@ def getTituloInfo(idInfo):
             return titulo
         
 def getKnownEncodings():
-    with open('registros/encodings.csv', 'r+') as encodings:
+    with open('registros/encodings.csv', 'r') as encodings:
         lista = encodings.readlines()
         lista.pop(0)
         ids = []

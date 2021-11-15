@@ -14,12 +14,13 @@ def getEncodings(path):
         images.append(currentImg)
         ids.append(os.path.splitext(funcionario)[0])
     
-    encodingsKnowFaces = evaluateEncoding(images)
+    encodingsKnowFaces = evaluateEncoding(images) # Codificações das faces nas imagens
     
     return ids, encodingsKnowFaces
 
 def evaluateEncoding(images):
     encodings = []
+    # Calcula as codificações das faces na lista de imagens passada
     for img in images:
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         currentImgEncoding = face_recognition.face_encodings(img)[0]
@@ -27,19 +28,21 @@ def evaluateEncoding(images):
     return encodings
 
 def identify(img, ids, knownEncodings):
-    faceLoc = face_recognition.face_locations(img)
+    faceLoc = face_recognition.face_locations(img) # Localização das faces da imagem
     if(len(faceLoc)>1):
         raise RuntimeError('Múltiplas faces detectadas, cancelando operação.')
     elif(len(faceLoc)==0):
         raise RuntimeError('Nenhuma face detectada.')
-    encoding = face_recognition.face_encodings(img, faceLoc)
+        
+    encoding = face_recognition.face_encodings(img, faceLoc) # Calcula a codificação da face detectada
     
+    # Compara a codificação da face detectada com as codificações das faces registradas
     for encoding, location in zip(encoding, faceLoc):
         comparisons = face_recognition.compare_faces(knownEncodings, encoding, tolerance=0.55)
         distances = face_recognition.face_distance(knownEncodings, encoding)
-        matchIndex = np.argmin(distances)
+        matchIndex = np.argmin(distances) # Face com a 'distância' menor à detectada
         
-        if(comparisons[matchIndex]):
+        if(comparisons[matchIndex]): # Caso esteja dentro do intervalo de tolerância, retorna a combinação
             id = ids[matchIndex]
             return id
         else:
